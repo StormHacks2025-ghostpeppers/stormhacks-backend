@@ -12,4 +12,16 @@ model User {
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
+  inventory FoodInventory[]
+}
+
+model FoodInventory {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ingredients String   // JSON string containing array of ingredient objects
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
+  
+  @@unique([userId]) // Each user has one inventory record
 }

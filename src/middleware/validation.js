@@ -10,6 +10,17 @@ const loginValidation = [
     body('password').notEmpty().withMessage('Password is required.'),
 ];
 
+const ingredientValidation = [
+    body('ingredient.name').notEmpty().withMessage('Ingredient name is required.'),
+    body('ingredient.quantity').optional().isNumeric().withMessage('Quantity must be a number.'),
+    body('ingredient.unit').optional().isString().withMessage('Unit must be a string.'),
+];
+
+const inventoryValidation = [
+    body('ingredients').isArray().withMessage('Ingredients must be an array.'),
+    body('ingredients.*.name').notEmpty().withMessage('Each ingredient must have a name.'),
+];
+
 const validate = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -21,5 +32,7 @@ const validate = (req, res, next) => {
 module.exports = {
     registerValidation,
     loginValidation,
+    ingredientValidation,
+    inventoryValidation,
     validate,
 };
